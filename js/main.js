@@ -1,9 +1,9 @@
 
 const SPEED = 1;
-const NO_OF_BALLS = 20;
+const NO_OF_BALLS = 50;
 const CANVAS_WIDTH = 900;
 const CANVAS_HEIGHT = 500;
-const MAXRADIUS = 30;
+const MAXRADIUS = 50;
 const MINRADIUS = 10;
 const MARGIN = 50;
 
@@ -12,13 +12,23 @@ let canvas = document.getElementById("myCanvas");
 let ctx = canvas.getContext("2d");
 let img = document.getElementById("ant");
 
-canvas.addEventListener('click', function(event){
-   var clicked = event.clientX;
-   var currentID = clicked.id || "No ID!";
-   console.log(currentID);
-     console.log(event.clientX,event.clientY);
-   //   ctx.clearRect(0,0,event.clientX,event.clientY);
-})
+canvas.addEventListener('click', (event) => {
+   var x = event.clientX;
+  var y = event.clientY;
+
+  for (let i = 0; i < ballList.length; i++) {
+    var ball = ballList[i];
+    if (x >= ball.x
+      && x <= ball.x + (ball.radius *2)
+      && y >= ball.y
+      && y <= ball.y + (ball.radius *2)
+    ) {
+      ballList.splice(i, 1);
+    }
+  }
+   
+   
+});
 
 
 
@@ -34,7 +44,7 @@ class Ball {
 
    draw = () => {
       ctx.beginPath();
-      ctx.drawImage(img, this.x, this.y, 40,30);
+      ctx.drawImage(img, this.x, this.y, this.radius,30);
       ctx.fill();
       ctx.closePath();
    }
@@ -124,12 +134,3 @@ class Ball {
 render();
 setInterval(animate, 1000 / 60);
 animate();
-
-
-
-// window.onload = function() {
-//    var canvas = document.getElementById("myCanvas");
-//    var ctx = canvas.getContext("2d");
-//    var img = document.getElementById("ant");
-//   ctx.drawImage(img, 10, 10,50,50);
-// };
